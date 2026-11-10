@@ -14,6 +14,7 @@ import {
   CloudUpload,
   AlertCircle,
   ExternalLink,
+  BrainCircuit,
 } from 'lucide-react';
 import { PROFILES, GitHubProfile } from './utils/githubData';
 import { GitHubNavbar } from './components/GitHubNavbar';
@@ -24,11 +25,13 @@ import { ContributionGraph } from './components/ContributionGraph';
 import { RepositoriesTab } from './components/RepositoriesTab';
 import { AiEnhancerModal } from './components/AiEnhancerModal';
 import { DeviceSimulatorBar, DeviceMode } from './components/DeviceSimulatorBar';
+import { DataScienceLab } from './components/DataScienceLab/DataScienceLab';
+import { DataScienceSpotlightCard } from './components/DataScienceSpotlightCard';
 
 export default function App() {
   const [profilesState, setProfilesState] = useState<Record<string, GitHubProfile>>(PROFILES);
   const [selectedUser, setSelectedUser] = useState<string>('ghanisyifanur-analisis');
-  const [activeTab, setActiveTab] = useState<'overview' | 'repositories' | 'projects' | 'packages' | 'stars'>('overview');
+  const [activeTab, setActiveTab] = useState<'overview' | 'datascience' | 'repositories' | 'projects' | 'packages' | 'stars'>('overview');
   const [isDarkMode, setIsDarkMode] = useState<boolean>(false);
   const [deviceMode, setDeviceMode] = useState<DeviceMode>('full');
   const [isAiModalOpen, setIsAiModalOpen] = useState<boolean>(false);
@@ -127,6 +130,7 @@ export default function App() {
         onToggleDarkMode={() => setIsDarkMode(!isDarkMode)}
         onOpenAiModal={() => setIsAiModalOpen(true)}
         onExportDrive={handleExportDrive}
+        onOpenDataScience={() => setActiveTab('datascience')}
       />
 
       {/* Responsive Viewport Simulator Bar */}
@@ -162,6 +166,22 @@ export default function App() {
             >
               <BookOpen size={16} className="text-slate-500" />
               <span>Overview</span>
+            </button>
+
+            {/* Senior Data Science Lab Tab */}
+            <button
+              onClick={() => setActiveTab('datascience')}
+              className={`flex items-center gap-2 py-3 px-3 text-xs sm:text-sm font-semibold border-b-2 transition-colors whitespace-nowrap ${
+                activeTab === 'datascience'
+                  ? 'border-[#fd8c73] text-slate-900 dark:text-white font-bold'
+                  : 'border-transparent text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200'
+              }`}
+            >
+              <BrainCircuit size={16} className="text-indigo-500" />
+              <span>Data Science Lab</span>
+              <span className="text-[10px] bg-gradient-to-r from-blue-600 to-indigo-600 text-white font-bold px-1.5 py-0.2 rounded-full shadow-2xs">
+                Senior
+              </span>
             </button>
 
             {/* Repositories Tab */}
@@ -234,6 +254,12 @@ export default function App() {
             <section className="flex-1 w-full space-y-6">
               {activeTab === 'overview' && (
                 <>
+                  {/* Senior Data Science & MLOps Spotlight */}
+                  <DataScienceSpotlightCard
+                    onOpenLab={() => setActiveTab('datascience')}
+                    isDarkMode={isDarkMode}
+                  />
+
                   {/* Profile README card matching maoneart */}
                   <ReadmeCard
                     profile={currentProfile}
@@ -258,6 +284,9 @@ export default function App() {
                 </>
               )}
 
+              {/* Senior Data Science Lab Main Tab */}
+              {activeTab === 'datascience' && <DataScienceLab />}
+
               {activeTab === 'repositories' && (
                 <RepositoriesTab
                   repos={currentProfile.pinnedRepos}
@@ -266,14 +295,53 @@ export default function App() {
               )}
 
               {activeTab === 'projects' && (
-                <div className="border border-slate-200 dark:border-slate-800 rounded-md p-10 text-center space-y-3 bg-white dark:bg-[#0d1117]">
-                  <Table size={32} className="mx-auto text-slate-400" />
-                  <h3 className="font-semibold text-base text-slate-900 dark:text-slate-100">
-                    No active public projects
-                  </h3>
-                  <p className="text-xs text-slate-500 dark:text-slate-400 max-w-sm mx-auto">
-                    Projects are a customizable, flexible tool for planning and tracking work on GitHub.
-                  </p>
+                <div className="space-y-4">
+                  <div className="border border-slate-200 dark:border-slate-800 rounded-xl p-6 bg-white dark:bg-[#0d1117] space-y-4 shadow-sm">
+                    <div className="flex items-center justify-between">
+                      <div className="flex items-center gap-2">
+                        <BrainCircuit size={20} className="text-indigo-600" />
+                        <h3 className="font-bold text-base text-slate-900 dark:text-slate-100">
+                          Active Senior Data Science & MLOps Projects
+                        </h3>
+                      </div>
+                      <button
+                        onClick={() => setActiveTab('datascience')}
+                        className="text-xs font-semibold px-3 py-1.5 rounded-lg bg-blue-600 text-white hover:bg-blue-700 transition-colors"
+                      >
+                        Open Lab Workbench →
+                      </button>
+                    </div>
+
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4 pt-2">
+                      <div className="p-4 rounded-lg border border-slate-200 dark:border-slate-800 bg-slate-50/60 dark:bg-[#161b22] space-y-2">
+                        <div className="flex items-center justify-between">
+                          <span className="text-xs font-bold text-slate-900 dark:text-slate-100">
+                            Enterprise Churn & XAI Pipeline
+                          </span>
+                          <span className="text-[10px] bg-emerald-100 text-emerald-800 dark:bg-emerald-950/60 dark:text-emerald-300 px-2 py-0.5 rounded font-semibold">
+                            Production
+                          </span>
+                        </div>
+                        <p className="text-xs text-slate-600 dark:text-slate-400">
+                          Serving 12,000+ accounts with sub-15ms Triton inference, Shapley feature attributions, and Feast feature store.
+                        </p>
+                      </div>
+
+                      <div className="p-4 rounded-lg border border-slate-200 dark:border-slate-800 bg-slate-50/60 dark:bg-[#161b22] space-y-2">
+                        <div className="flex items-center justify-between">
+                          <span className="text-xs font-bold text-slate-900 dark:text-slate-100">
+                            A/B Testing Causal Experimentation
+                          </span>
+                          <span className="text-[10px] bg-blue-100 text-blue-800 dark:bg-blue-950/60 dark:text-blue-300 px-2 py-0.5 rounded font-semibold">
+                            Active
+                          </span>
+                        </div>
+                        <p className="text-xs text-slate-600 dark:text-slate-400">
+                          Continuous experimentation framework supporting Bayesian hypothesis evaluation, power estimation, and CUPED variance reduction.
+                        </p>
+                      </div>
+                    </div>
+                  </div>
                 </div>
               )}
 

@@ -128,12 +128,25 @@ export const ProfileSidebar: React.FC<ProfileSidebarProps> = ({
               href={profile.blog.startsWith('http') ? profile.blog : `https://${profile.blog}`}
               target="_blank"
               rel="noopener noreferrer"
-              className="text-blue-600 dark:text-blue-400 hover:underline truncate"
+              className="text-blue-600 dark:text-blue-400 hover:underline truncate font-medium"
             >
               {profile.blog.replace(/^https?:\/\//, '')}
             </a>
           </div>
         )}
+
+        {/* Academic Portfolio & UNUGHA Cilacap Reference */}
+        <div className="flex items-center gap-2">
+          <LinkIcon size={14} className="text-emerald-500 shrink-0" />
+          <a
+            href="https://rizqighaniadinata.my.id"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-emerald-600 dark:text-emerald-400 hover:underline truncate font-semibold"
+          >
+            rizqighaniadinata.my.id
+          </a>
+        </div>
 
         {profile.email && (
           <div className="flex items-center gap-2">
@@ -146,6 +159,26 @@ export const ProfileSidebar: React.FC<ProfileSidebarProps> = ({
             </a>
           </div>
         )}
+      </div>
+
+      {/* Senior Data Science Competencies */}
+      <div className="mt-5 pt-4 border-t border-slate-200 dark:border-slate-800 space-y-2">
+        <div className="flex items-center justify-between text-xs font-bold text-slate-800 dark:text-slate-200 uppercase tracking-wider">
+          <span>DS Competencies</span>
+          <span className="text-[10px] text-emerald-600 dark:text-emerald-400 font-semibold">Senior Track</span>
+        </div>
+        <div className="flex flex-wrap gap-1.5 pt-1">
+          {['LightGBM', 'PySpark', 'SHAP / XAI', 'MLOps (Triton)', 'A/B Testing', 'Polars', 'PyTorch', 'Optuna'].map(
+            (skill) => (
+              <span
+                key={skill}
+                className="text-[10px] px-2 py-0.5 rounded-md font-mono bg-slate-100 dark:bg-[#21262d] text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-slate-700 font-medium"
+              >
+                {skill}
+              </span>
+            )
+          )}
+        </div>
       </div>
 
       {/* Block or report user link */}

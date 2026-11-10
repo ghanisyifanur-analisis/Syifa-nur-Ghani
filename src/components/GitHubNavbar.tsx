@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Search, Bell, Plus, Menu, X, Sun, Moon, Laptop, Sparkles, Check, ExternalLink } from 'lucide-react';
+import { Search, Bell, Plus, Menu, X, Sun, Moon, Laptop, Sparkles, Check, ExternalLink, BrainCircuit } from 'lucide-react';
 import { GitHubProfile } from '../utils/githubData';
 
 interface GitHubNavbarProps {
@@ -10,6 +10,7 @@ interface GitHubNavbarProps {
   onToggleDarkMode: () => void;
   onOpenAiModal: () => void;
   onExportDrive: () => void;
+  onOpenDataScience?: () => void;
 }
 
 export const GitHubNavbar: React.FC<GitHubNavbarProps> = ({
@@ -20,6 +21,7 @@ export const GitHubNavbar: React.FC<GitHubNavbarProps> = ({
   onToggleDarkMode,
   onOpenAiModal,
   onExportDrive,
+  onOpenDataScience,
 }) => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [profileDropdownOpen, setProfileDropdownOpen] = useState(false);
@@ -132,6 +134,30 @@ export const GitHubNavbar: React.FC<GitHubNavbarProps> = ({
             )}
           </div>
 
+          {/* Senior Data Science Lab Quick Launch Button */}
+          {onOpenDataScience && (
+            <button
+              onClick={onOpenDataScience}
+              className="flex items-center gap-1.5 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 text-white text-xs font-semibold px-2.5 py-1.5 rounded-md shadow-sm transition-all border border-blue-400/40"
+              title="Launch Senior Data Science & MLOps Lab"
+            >
+              <BrainCircuit size={14} className="text-blue-200" />
+              <span className="hidden sm:inline">Data Science Lab</span>
+            </button>
+          )}
+
+          {/* Academic Portfolio Site link */}
+          <a
+            href="https://rizqighaniadinata.my.id"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="hidden lg:flex items-center gap-1 bg-[#161b22] hover:bg-[#30363d] text-emerald-400 text-xs font-medium px-2.5 py-1.5 rounded-md border border-[#30363d] transition-colors"
+            title="Visit Academic Web Portfolio (rizqighaniadinata.my.id)"
+          >
+            <span>rizqighaniadinata.my.id</span>
+            <ExternalLink size={10} />
+          </a>
+
           {/* AI Thinking Generator Button */}
           <button
             onClick={onOpenAiModal}
@@ -183,19 +209,40 @@ export const GitHubNavbar: React.FC<GitHubNavbarProps> = ({
           <div className="py-1 px-2 hover:bg-[#30363d] rounded cursor-pointer">Open Source</div>
           <div className="py-1 px-2 hover:bg-[#30363d] rounded cursor-pointer">Enterprise</div>
           <div className="py-1 px-2 hover:bg-[#30363d] rounded cursor-pointer">Pricing</div>
-          <div className="pt-2 border-t border-[#30363d] flex gap-2">
-            <button
-              onClick={onOpenAiModal}
-              className="flex-1 flex items-center justify-center gap-1.5 bg-purple-700 py-1.5 rounded text-xs font-semibold text-white"
+          <div className="pt-2 border-t border-[#30363d] flex flex-col gap-2">
+            {onOpenDataScience && (
+              <button
+                onClick={() => {
+                  onOpenDataScience();
+                  setMobileMenuOpen(false);
+                }}
+                className="w-full flex items-center justify-center gap-1.5 bg-gradient-to-r from-blue-600 to-indigo-600 py-2 rounded text-xs font-semibold text-white shadow"
+              >
+                <BrainCircuit size={14} /> Open Senior Data Science Lab
+              </button>
+            )}
+            <div className="flex gap-2">
+              <button
+                onClick={onOpenAiModal}
+                className="flex-1 flex items-center justify-center gap-1.5 bg-purple-700 py-1.5 rounded text-xs font-semibold text-white"
+              >
+                <Sparkles size={14} /> AI Architect
+              </button>
+              <button
+                onClick={onExportDrive}
+                className="flex-1 flex items-center justify-center gap-1.5 bg-[#30363d] py-1.5 rounded text-xs font-medium text-white"
+              >
+                ▲ Drive Sync
+              </button>
+            </div>
+            <a
+              href="https://rizqighaniadinata.my.id"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-center text-xs text-emerald-400 py-1 hover:underline"
             >
-              <Sparkles size={14} /> AI Thinking Architect
-            </button>
-            <button
-              onClick={onExportDrive}
-              className="flex-1 flex items-center justify-center gap-1.5 bg-[#30363d] py-1.5 rounded text-xs font-medium text-white"
-            >
-              ▲ Drive Export
-            </button>
+              Academic Portfolio: rizqighaniadinata.my.id ↗
+            </a>
           </div>
         </div>
       )}
